@@ -1,0 +1,20 @@
+{
+  "name": "coderhouse.backend1.proyectofinal",
+  "version": "1.0.0",
+  "description": "Proyecto Final del curso de Programación Backend 1 de Coderhouse.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
