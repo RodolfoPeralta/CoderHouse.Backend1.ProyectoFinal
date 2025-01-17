@@ -27,7 +27,7 @@ class ProductManagerController {
             code: code,
             price: price,
             status: status,
-            stock, stock,
+            stock: stock,
             category: category,
             thumbnails: thumbnails
         }
