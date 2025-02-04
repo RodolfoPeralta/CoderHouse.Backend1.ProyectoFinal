@@ -2,16 +2,16 @@ const CartManager = require('../models/CartManager');
 
 class CartManagerController {
 
-    static createCart(request, response) {
-        return response.status(201).json(CartManager.createCart());
+    static async createCart(request, response) {
+        return response.status(201).json(await CartManager.createCart());
     }
 
-    static addProductToCart(request, response) {
+    static async addProductToCart(request, response) {
         const cid = Number(request.params.cid);
         const pid = Number(request.params.pid);
 
         try {
-            const cart = CartManager.addProductToCart(cid, pid);
+            const cart = await CartManager.addProductToCart(cid, pid);
             return response.status(201).json(cart);
         }
         catch(error) {
@@ -19,9 +19,9 @@ class CartManagerController {
         }
     }
 
-    static getCartById(request, response) {
+    static async getCartById(request, response) {
         const cid = Number(request.params.id);
-        const cart = CartManager.getCartById(cid);
+        const cart = await CartManager.getCartById(cid);
 
         if(!cart) {
             return response.status(404).json(`message: cart with id ${cid} not founded.`);
@@ -30,16 +30,15 @@ class CartManagerController {
         return response.status(200).json(cart);
     }
 
-    static getCarts(request, response) {
-        const carts = CartManager.getCarts();
+    static async getCarts(request, response) {
+        const carts = await CartManager.getCarts();
 
-        if(!carts) {
+        if(!carts || carts == null) {
             return response.status(404);
         }
 
         return response.status(200).json(carts); 
     }
-
 }
 
 module.exports = CartManagerController;

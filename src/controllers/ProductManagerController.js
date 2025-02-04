@@ -2,8 +2,8 @@ const ProductManager = require('../models/ProductManager');
 
 class ProductManagerController {
 
-    static getProducts(request, response) {
-        const products = ProductManager.getProducts();
+    static async getProducts(request, response) {
+        const products = await ProductManager.getProducts();
 
         if(!products) {
             return response.status(404);
@@ -12,9 +12,9 @@ class ProductManagerController {
         return response.status(200).json(products);
     }
 
-    static getProductById(request, response) {
+    static async getProductById(request, response) {
         const id = Number(request.params.id);
-        const product = ProductManager.getProductById(id);
+        const product = await ProductManager.getProductById(id);
 
         if(!product) {
             return response.status(404).json({message: `product with id ${id} not founded.`});
@@ -23,7 +23,7 @@ class ProductManagerController {
         return response.status(200).json(product);
     }
 
-    static addProduct(request, response) {
+    static async addProduct(request, response) {
         const {title, description, code, price, status, stock, category, thumbnails} = request.body;
 
         const product = {
@@ -37,12 +37,12 @@ class ProductManagerController {
             thumbnails: thumbnails
         };
 
-        ProductManager.addProduct(product);
+        const newProduct = await ProductManager.addProduct(product);
 
-        return response.status(201).json(product);
+        return response.status(201).json(newProduct);
     }
 
-    static updateProduct(request, response) {
+    static async updateProduct(request, response) {
         const id = Number(request.params.id);
         const {title, description, code, price, status, stock, category, thumbnails} = request.body;
 
@@ -57,7 +57,7 @@ class ProductManagerController {
             thumbnails: thumbnails
         };
 
-        if(ProductManager.updateproduct(id, product)) {
+        if(await ProductManager.updateproduct(id, product)) {
             return response.status(200).json({message: `Product with id ${id} updated.`});
         }
         else {
@@ -65,9 +65,9 @@ class ProductManagerController {
         }
     }
 
-    static deleteProduct(request, response) {
+    static async deleteProduct(request, response) {
         const id = Number(request.params.id);
-        if(ProductManager.deleteProduct(id)) {
+        if(await ProductManager.deleteProduct(id)) {
             response.status(200).json({message: "Product deleted."});
         }
         else {

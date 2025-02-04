@@ -1,64 +1,72 @@
+const FileService = require('../services/FileService');
+const path = require('path');
+
 class CartManager {
 
     // Properties
-    carts;
-    cid;
-
-    // Constructor
-
-    constructor() {
-        this.carts = [];
-        this.cid = 1;
-    }
+    static filePath = path.join(__dirname, "..", "..", "db", "carts.json");
 
     // Public Methods
 
-    getCarts() {
-        return this.carts || null;
+    static async getCarts() {
+        return await FileService.readFile(CartManager.filePath);
     }
 
-    getCartById(cid) {
-        return this.carts.find((c) => c.id === cid) || null;
+    static async getCartById(cid) {
+        const carts = await FileService.readFile(CartManager.filePath);
+        return carts.find((c) => c.id === cid) || null;
     }
 
-    createCart() {
-        const newCart = {
-            id: this.cid++,
-            products: []
-        };
+    static async createCart() {
+        try {
+            const carts = await FileService.readFile(CartManager.filePath);
+            const cid = carts.length > 0 ? (Math.max(...carts.map((c) => c.id)) + 1) : 1;
 
-        this.carts.push(newCart);
+            const newCart = {
+                id: cid,
+                products: []
+            };
 
-        return newCart;
-    }
+            carts.push(newCart);
+            await FileService.writeFile(CartManager.filePath, carts);
 
-    addProductToCart(cid, pid) {
-        const cart = this.getCartById(cid);
+            return newCart;
+        }
+        catch (error) {
 
-        if(!cart) {
-            throw new Error(`Cart with id ${cid} not founded.`);
         }
 
-        const existingProduct = cart.products.find((p) => p.product === pid);
+    }
 
-        if(existingProduct) {
-            existingProduct.quantity += 1;
+    static async addProductToCart(cid, pid) {
+        try {
+            const carts = await this.getCarts();
+            const cart = carts.find((cart) => cart.id === cid);
 
-            return existingProduct;
-        }
-        else {
-
-            const newProduct = {
-                product: pid,
-                quantity: 1
+            if (!cart) {
+                return null;
             }
 
-            cart.products.push(newProduct);
+            const existingProduct = cart.products.find((p) => p.product === pid);
 
-            return newProduct;
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            }
+            else {
+                const newProduct = {
+                    product: pid,
+                    quantity: 1
+                };
+
+                cart.products.push(newProduct);
+            }
+
+            await FileService.writeFile(CartManager.filePath, carts);
+        }
+        catch (error) {
+
         }
     }
-
 }
 
-module.exports = new CartManager();
+module.exports = CartManager;
