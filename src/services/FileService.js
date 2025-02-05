@@ -5,10 +5,15 @@ class FileService {
     static async readFile(path) {
         try {
             const data = await fs.readFile(path, "utf-8");
+            
+            if(data.length == 0) {
+                return [];
+            }
+
             return JSON.parse(data);
         }
         catch (error) {
-            return [];
+            throw ("Error when trying to read from database.");
         }
     }
     
@@ -17,7 +22,7 @@ class FileService {
             await fs.writeFile(path, JSON.stringify(data, null, 2), "utf8");
         }
         catch(error) {
-            throw new Error(`Error writing on file to ${path}. Error: ${error}`);
+            throw ("Error when trying to write on database.");
         }
     }
 
@@ -30,7 +35,6 @@ class FileService {
             return false;
         }
     }
-
 }
 
 module.exports = FileService;

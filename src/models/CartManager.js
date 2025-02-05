@@ -4,22 +4,38 @@ const path = require('path');
 class CartManager {
 
     // Properties
+
     static filePath = path.join(__dirname, "..", "..", "db", "carts.json");
 
     // Public Methods
 
+    // Gets all carts from carts.json file
     static async getCarts() {
-        return await FileService.readFile(CartManager.filePath);
+        try {
+            return await FileService.readFile(CartManager.filePath);
+        }
+        catch(error) {
+            throw error;
+        }
     }
 
+    // Gets one cart by id
     static async getCartById(cid) {
-        const carts = await FileService.readFile(CartManager.filePath);
-        return carts.find((c) => c.id === cid) || null;
+        try {
+            const carts = await FileService.readFile(CartManager.filePath);
+            return carts.find((c) => c.id === cid) || null;
+        }
+        catch(error) {
+            throw error;
+        }
     }
 
+    // Creates a new cart
     static async createCart() {
         try {
             const carts = await FileService.readFile(CartManager.filePath);
+
+            // Retrieves the last id to create new cart with the next value
             const cid = carts.length > 0 ? (Math.max(...carts.map((c) => c.id)) + 1) : 1;
 
             const newCart = {
@@ -33,11 +49,11 @@ class CartManager {
             return newCart;
         }
         catch (error) {
-
+            throw error;
         }
-
     }
 
+    // Adds a product with id = pid to the cart with id = cid
     static async addProductToCart(cid, pid) {
         try {
             const carts = await this.getCarts();
@@ -62,9 +78,33 @@ class CartManager {
             }
 
             await FileService.writeFile(CartManager.filePath, carts);
+
+            return cart;
         }
         catch (error) {
+            throw error;
+        }
+    }
 
+    // Deletes a cart by id
+    static async deleteCartById(id) {
+        try {
+            const carts = await FileService.readFile(CartManager.filePath);
+            console.log("Carts: ", carts);
+
+            if(carts.some((c) => c.id === id)) {
+                const newCarts = carts.filter((c) => c.id !== id);
+                console.log("New Carts: ", newCarts);
+                await FileService.writeFile(CartManager.filePath, newCarts);
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch(error) {
+            throw error;
         }
     }
 }

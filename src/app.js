@@ -6,6 +6,7 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 // Products
 app.get('/api/products', async (request, response) => ProductManagerController.getProducts(request, response));
@@ -19,5 +20,6 @@ app.get('/api/carts', async (request,response) => CartManagerController.getCarts
 app.get('/api/carts/:id', async (request, response) => CartManagerController.getCartById(request, response));
 app.post('/api/carts', async (request, response) => CartManagerController.createCart(request, response));
 app.post('/api/carts/:cid/product/:pid', async (request, response) => CartManagerController.addProductToCart(request, response));
+app.delete('/api/carts/:id', async (request, response) => CartManagerController.deleteCartById(request, response));
 
 module.exports = app;
