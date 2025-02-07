@@ -1,6 +1,8 @@
 const express = require('express');
-const ProductManagerController = require('./controllers/ProductManagerController');
-const CartManagerController = require('./controllers/CartManagerController');
+const cartRouter = require('./routes/cartRouter');
+const productRouter = require('./routes/productRouter');
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 
@@ -8,18 +10,29 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+// Multer
+const storageConfig = multer.diskStorage({
+    destination: (request, file, cb) => {
+        cb(null, path.resolve(__dirname, './uploads'));
+    },
+    filename: (request, file, cb) => {
+        const timestamp = Date.now();
+        const originalname = file.originalname;
+        const ext = path.extname(originalname);
+        cb(null, `${timestamp}-${originalname}`);
+    }
+});
+
+const upload = multer({storage: storageConfig});
+
+app.post('/upload', upload.single('file'), (request, reponse) => {});
+
+// Routes
+
 // Products
-app.get('/api/products', async (request, response) => ProductManagerController.getProducts(request, response));
-app.get('/api/products/:id', async (request, response) => ProductManagerController.getProductById(request, response));
-app.post('/api/products', async (request, response) => ProductManagerController.addProduct(request, response));
-app.put('/api/products/:id', async (request, response) => ProductManagerController.updateProduct(request, response));
-app.delete('/api/products/:id', async (request, response) => ProductManagerController.deleteProduct(request,response));
+app.use('/api/products', productRouter);
 
 // Carts
-app.get('/api/carts', async (request,response) => CartManagerController.getCarts(request, response));
-app.get('/api/carts/:id', async (request, response) => CartManagerController.getCartById(request, response));
-app.post('/api/carts', async (request, response) => CartManagerController.createCart(request, response));
-app.post('/api/carts/:cid/product/:pid', async (request, response) => CartManagerController.addProductToCart(request, response));
-app.delete('/api/carts/:id', async (request, response) => CartManagerController.deleteCartById(request, response));
+app.use('/api/carts', cartRouter);
 
 module.exports = app;
