@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "id": 1,
+    "title": "Gibson Les Paul",
+    "description": "Electric Guitar",
+    "code": "12345",
+    "price": 250,
+    "status": true,
+    "stock": 6,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/les-paul.jpg"
+  }
+]
