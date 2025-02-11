@@ -1,6 +1,5 @@
 const express = require('express');
-const cartRouter = require('./routes/cartRouter');
-const productRouter = require('./routes/productRouter');
+const routes = require('./routes/index');
 
 const app = express();
 
@@ -11,9 +10,6 @@ app.use(express.urlencoded({extended: true}));
 // Routes
 
 // Products
-app.use('/api/products', productRouter);
-
-// Carts
-app.use('/api/carts', cartRouter);
+app.use('/api', routes);
 
 module.exports = app;
