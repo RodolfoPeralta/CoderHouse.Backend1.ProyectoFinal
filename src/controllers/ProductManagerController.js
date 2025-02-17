@@ -5,10 +5,23 @@ class ProductManagerController {
     static async getProducts(request, response) {
         try {
             const products = await ProductManager.getProducts();
-            return response.status(200).json(products);
+
+            if(request.headers.Accept?.includes("application/json")) {
+                return response.status(200).json(products);
+            }
+            else {
+                return response.render('products', {products});
+            }
+            
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            if(request.headers.Accept?.includes("application/json")) {
+                return response.status(500).json({Message: `${error}`});
+            }
+            else {
+                return response.render('products', {error});
+            }
+            
         }
     }
 
