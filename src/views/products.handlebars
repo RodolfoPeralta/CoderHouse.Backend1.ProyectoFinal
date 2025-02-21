@@ -1,20 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Api Rest - Products</title>
-</head>
-<body>
+<div class="productsContainer">
     <h2>Lista de productos</h2>
-    {{#if products.length}}
-        <ul>
-            {{#each products}}
-                <li>{{title}}</li>
-            {{/each}}
-        </ul>
-    {{else}}
-        <p>Lista de productos vacía</p>
-    {{/if}}
-</body>
-</html>
+    <div class="products">
+        {{#if error}}
+            <p>Error leyendo productos desde la base de datos.</p>
+        {{else}}
+            {{#if products.length}}
+                {{#each products}}
+                    <div class="item">
+                        <span>Título:</span> {{this.title}} <br>
+                        <span>Descripción:</span> {{this.description}} <br>
+                        <span>Precio:</span> ${{this.price}} <br>
+                        <span>Stock:</span> {{this.stock}}
+                    </div>
+                {{/each}}
+            {{else}}
+                <p>No hay productos que mostrar.</p>
+            {{/if}}
+        {{/if}}
+    </div>
+</div>
+    
+

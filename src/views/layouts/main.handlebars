@@ -3,14 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Api Rest</title>
+    
+    <!-- Font awesome -->
+    <script src="https://kit.fontawesome.com/e285082969.js" crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="../../static/css/style.css"/>
+    <title>API Rest</title>
 </head>
 <body>
-    <h1>API Rest</h1>
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/api/products">Productos</a>
-    </nav>
-    {{{body}}}
+    <header>
+        <h1><a href="/">API Rest</a></h1>
+        <a href="/"><i class="fa-solid fa-screwdriver-wrench icon" style="color: #f44336;"></i></a>
+        <nav>
+            <a href="/views/products">Productos</a>
+            <a href="/views/realTimeProducts">Productos en tiempo real</a>
+        </nav>
+    </header>
+    <main>
+        {{{body}}}
+    </main>
+    <footer>
+        <p>&#169 Copyright 2025 | Todos los derechos reservados.</p>
+        <p>Rodolfo Peralta - Comisión 75240</p>
+    </footer>
 </body>
 </html>

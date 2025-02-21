@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Fender Telecaster",
+    "description": "Electric Guitar",
+    "code": "6789",
+    "price": 190000,
+    "status": true,
+    "stock": 1,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/tele.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Gibson Les Paul",
+    "description": "Electric Guitar",
+    "code": "12345",
+    "price": 300000,
+    "status": false,
+    "stock": 0,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/les-paul.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Takamine Acuostic",
+    "description": "Acoustic Guitar",
+    "code": "38456",
+    "price": 210000,
+    "status": true,
+    "stock": 2,
+    "category": "Acoustic Guitar",
+    "thumbnails": "../../guitars/takamine.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Fender Telecaster",
+    "description": "Electric Guitar",
+    "code": "3823456",
+    "price": 260000,
+    "status": true,
+    "stock": 7,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/tele.jpg"
+  }
+]

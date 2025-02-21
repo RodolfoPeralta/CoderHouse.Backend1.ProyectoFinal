@@ -1,4 +1,4 @@
-const ProductManager = require('../models/ProductManager');
+const ProductManager = require('../managers/ProductManager');
 
 class ProductManagerController {
 
@@ -6,22 +6,10 @@ class ProductManagerController {
         try {
             const products = await ProductManager.getProducts();
 
-            if(request.headers.Accept?.includes("application/json")) {
-                return response.status(200).json(products);
-            }
-            else {
-                return response.render('products', {products});
-            }
-            
+            return response.status(200).json(products);
         }
         catch(error) {
-            if(request.headers.Accept?.includes("application/json")) {
-                return response.status(500).json({Message: `${error}`});
-            }
-            else {
-                return response.render('products', {error});
-            }
-            
+            return response.status(500).json({Message: `${error}`});
         }
     }
 
