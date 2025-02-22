@@ -1,5 +1,3 @@
-/* ---- CLIENT ---- */
-
 // Connection with the server
 const socket = io.connect("http://localhost:8080");
 
@@ -38,7 +36,7 @@ function renderProducts(products, error = false) {
         div.innerHTML = `
                     <span>Título:</span> ${p.title} <br>
                     <span>Descripción:</span> ${p.description} <br>
-                    <span>Precio:</span> $${p.price} <br>
+                    <span>Precio:</span> $${(p.price).toLocaleString("es-ES")} <br>
                     <span>Stock:</span> ${p.stock}
                     `;
 
@@ -48,7 +46,7 @@ function renderProducts(products, error = false) {
     });
 }
 
-// Events
+// Websocket
 
 socket.on("products", products => {
     renderProducts(products);
@@ -57,6 +55,8 @@ socket.on("products", products => {
 socket.on("error", products => {
     renderProducts(products, true);
 });
+
+// Events
 
 // Obtains form values to create a new product
 sendButton.addEventListener("click", (e) => {
@@ -75,6 +75,7 @@ sendButton.addEventListener("click", (e) => {
     socket.emit("addProduct", newProduct);
 });
 
+// Deletes a product by realTimeProducts view
 productsContainer.addEventListener("click", (e) => {
     const productId = Number(e.target.getAttribute("id"));
     socket.emit("deleteProduct", productId);

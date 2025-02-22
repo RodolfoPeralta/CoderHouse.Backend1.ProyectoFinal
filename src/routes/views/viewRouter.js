@@ -17,6 +17,7 @@ router.get("/products", async (request, response) => {
         });
     }
 });
+
 router.get("/realTimeProducts", async (request, response) => {
     response.render("realTimeProducts");
 });

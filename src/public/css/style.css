@@ -24,6 +24,11 @@ a {
     color: #FFFFFF;
 }
 
+body main .realTimeProductsContainer .formContainer .f-item select
+{
+    display: block;
+}
+
 /* Main View */
 
 html,
@@ -236,6 +241,8 @@ body main .realTimeProductsContainer .contentContainer #prodContainer .item .del
     margin: 10px auto;
 }
 
+/* Web */
+ 
 @media screen and (min-width: 1025px) and (max-width: 2000px) {
 
     body header nav a:hover {
@@ -254,6 +261,8 @@ body main .realTimeProductsContainer .contentContainer #prodContainer .item .del
         background-color: #27ae60;
     }
 }
+
+/* Mobile */
 
 @media screen and (min-width: 320px) and (max-width: 768px) {
 
@@ -330,6 +339,8 @@ body main .realTimeProductsContainer .contentContainer #prodContainer .item .del
         background-color: rgb(244, 67, 54);
     }
 }
+
+/* Tablet */
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
    
