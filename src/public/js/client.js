@@ -36,7 +36,7 @@ function renderProducts(products, error = false) {
         div.innerHTML = `
                     <span>Título:</span> ${p.title} <br>
                     <span>Descripción:</span> ${p.description} <br>
-                    <span>Precio:</span> $${(p.price).toLocaleString("es-ES")} <br>
+                    <span>Precio:</span> $${(p.price)} <br>
                     <span>Stock:</span> ${p.stock}
                     `;
 
@@ -62,17 +62,24 @@ socket.on("error", products => {
 sendButton.addEventListener("click", (e) => {
     e.preventDefault();
 
+    if(!formElements[0].value || !formElements[1].value || !formElements[2].value || !formElements[3].value || !formElements[5].value) {
+        window.alert("Error agregando productos. Uno o más campos del formulario estan vacíos.");
+        return;
+    }
+
     const newProduct = {
         title: formElements[0].value,
         description: formElements[1].value,
         code: formElements[2].value,
-        price: parseInt(formElements[3]. value),
+        price: parseInt(formElements[3].value),
         status: formElements[4].checked,
         stock: formElements[5].value,
         category: formElements[6].value
     };
 
     socket.emit("addProduct", newProduct);
+
+    formElements.reset();
 });
 
 // Deletes a product by realTimeProducts view
@@ -80,9 +87,3 @@ productsContainer.addEventListener("click", (e) => {
     const productId = Number(e.target.getAttribute("id"));
     socket.emit("deleteProduct", productId);
 });
-
-
-
-
-
-
