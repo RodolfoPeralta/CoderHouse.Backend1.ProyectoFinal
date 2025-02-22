@@ -17,6 +17,7 @@ const configSocket = (io) => {
         socket.on("addProduct", async (newProduct) => {
             try {
                 await ProductManager.addProduct(newProduct);
+                console.log(`'${newProduct.title}' product added to db.`);
                 io.emit("products", await ProductManager.getProducts());
             }
             catch(error) {
@@ -28,6 +29,7 @@ const configSocket = (io) => {
         socket.on("deleteProduct", async (productId) => {
             try {
                 await ProductManager.deleteProduct(productId);
+                console.log(`Product with Id ${productId} deleted.`);
                 io.emit("products", await ProductManager.getProducts());
             }
             catch(error) {
