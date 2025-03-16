@@ -1,18 +1,15 @@
-const FileService = require('../services/FileService');
-const path = require('path');
+const MongoDbService = require('../services/MongoDbService');
+const Carts = require('../models/Carts');
+const Products = require('../models/Product');
 
 class CartManager {
 
-    // Properties
-
-    static filePath = path.join(__dirname, "..", "..", "db", "carts.json");
-
     // Public Methods
 
-    // Gets all carts from carts.json file
-    static async getCarts() {
+    // Gets all carts from db
+    static async getCarts(isPopulate) {
         try {
-            return await FileService.readFile(CartManager.filePath);
+            return await MongoDbService.getAll(Carts, isPopulate);
         }
         catch(error) {
             throw error;
@@ -20,10 +17,18 @@ class CartManager {
     }
 
     // Gets one cart by id
-    static async getCartById(cid) {
+    static async getCartById(cid, isPopulate) {
         try {
-            const carts = await FileService.readFile(CartManager.filePath);
-            return carts.find((c) => c.id === cid) || null;
+            return await MongoDbService.getById(Carts, cid, isPopulate);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+
+    static async getCartByIdWithPopulate(cid) {
+        try {
+            return await MongoDbService.getByIdWithPopulate(Carts, cid);
         }
         catch(error) {
             throw error;
@@ -33,75 +38,130 @@ class CartManager {
     // Creates a new cart
     static async createCart() {
         try {
-            const carts = await FileService.readFile(CartManager.filePath);
-
-            // Retrieves the last id to create new cart with the next value
-            const cid = carts.length > 0 ? (Math.max(...carts.map((c) => c.id)) + 1) : 1;
-
-            const newCart = {
-                id: cid,
-                products: []
-            };
-
-            carts.push(newCart);
-            await FileService.writeFile(CartManager.filePath, carts);
-
-            return newCart;
+            return await MongoDbService.createOne(Carts);
         }
         catch (error) {
             throw error;
         }
     }
 
-    // Adds a product with id = pid to the cart with id = cid
+    // Adds an specific product to a cart
     static async addProductToCart(cid, pid) {
         try {
-            const carts = await this.getCarts();
-            const cart = carts.find((cart) => cart.id === cid);
+            const cart = await MongoDbService.getById(Carts, cid);
 
-            if (!cart) {
-                return null;
+            if(!cart) {
+                throw new Error(`Cart with id '${cid}' not founded.`);
             }
 
-            const existingProduct = cart.products.find((p) => p.product === pid);
+            const product = await MongoDbService.getById(Products, pid);
 
-            if (existingProduct) {
-                existingProduct.quantity += 1;
+            if(!product) {
+                throw new Error(`Product with id '${pid}' not founded.`);
+            }
+
+            const pIndex = cart.products.findIndex(item => item.product == pid);
+            
+            if(pIndex !== -1) {
+                cart.products[pIndex].quantity += 1;
             }
             else {
-                const newProduct = {
-                    product: pid,
-                    quantity: 1
-                };
-
-                cart.products.push(newProduct);
+                cart.products.push({ product: pid, quantity: 1 });
             }
 
-            await FileService.writeFile(CartManager.filePath, carts);
-
-            return cart;
+            return await MongoDbService.updateById(Carts, cart, cid);
         }
         catch (error) {
             throw error;
         }
     }
 
-    // Deletes a cart by id
-    static async deleteCartById(id) {
+    // Deletes a products list to cart by id
+    static async deleteProductsToCartById(id) {
         try {
-            const carts = await FileService.readFile(CartManager.filePath);
-            console.log("Carts: ", carts);
+            const cart = await MongoDbService.getById(Carts, id);
 
-            if(carts.some((c) => c.id === id)) {
-                const newCarts = carts.filter((c) => c.id !== id);
-                console.log("New Carts: ", newCarts);
-                await FileService.writeFile(CartManager.filePath, newCarts);
+            if(!cart) {
+                throw new Error(`Cart with id '${cid}' not founded.`);
+            }
 
-                return true;
+            cart.products = [];
+
+            return updatedCart = await MongoDbService.updateById(Carts, cart, id);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+
+    static async deleteProductFromCartById(cid, pid) {
+        try {
+
+            const cart = await MongoDbService.getById(Carts, cid);
+
+            if(!cart) {
+                throw new Error(`Cart with id '${cid}' not founded.`);
+            }
+
+            const product = await MongoDbService.getById(Products, pid);
+
+            if(!product) {
+                throw new Error(`Product with id '${pid}' not founded.`);
+            }
+
+            const pIndex = cart.products.findIndex(item => item.product == pid);
+
+            if(pIndex !== -1) {
+                cart.products.splice(pIndex, 1);
             }
             else {
-                return false;
+                throw new Error(`Product with id '${pid}' not founded on Cart with id '${cid}'.`);
             }
+
+            return await MongoDbService.updateById(Carts, cart, cid);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+
+    static async updateAllProductsFromCart(products, cid) {
+        try {
+
+            const cart = await MongoDbService.getById(Carts, cid);
+
+            if(!cart) {
+                throw new Error(`Cart with id '${cid}' not founded.`);
+            }
+
+            cart.products = products;
+
+            return await MongoDbService.updateById(Carts, cart, cid);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+
+    static async updateProductFromCartById(quantity, cid, pid) {
+        try {
+            const cart = await MongoDbService.getById(Carts, cid);
+
+            if(!cart) {
+                throw new Error(`Cart with id '${cid}' not founded.`);
+            }
+
+            const product = await MongoDbService.getById(Products, pid);
+
+            if(!product) {
+                throw new Error(`Product with id '${pid}' not founded.`);
+            }
+
+            const pIndex = cart.products.findIndex(p => p.product == pid);
+
+            cart.products[pIndex].quantity = quantity;
+
+            return await MongoDbService.updateById(Carts, cart, cid);
         }
         catch(error) {
             throw error;

@@ -1,42 +1,34 @@
 const path = require("path");
-const FileService = require("../services/FileService");
+const Products = require("../models/Product");
+const MongoDbService = require('../services/MongoDbService');
 
 class ProductManager {
 
-    // Properties
-
-    static filePath = path.join(__dirname, "..", "..", "db", "products.json");
-
     // Public Methods
 
-    // Adds a product to products.json file
+    // Adds a product to db
     static async addProduct(product) {
         try {
-            const products = await FileService.readFile(ProductManager.filePath);
-
-            // Retrieves the last id to create new product with the next value
-            const pid = products.length > 0 ? (Math.max(...products.map((p) => p.id)) + 1) : 1;
-
-            const newProduct = {
-                id: pid,
-                ...product
-            };
-
-            products.push(newProduct);
-
-            await FileService.writeFile(ProductManager.filePath, products);
-
-            return newProduct;
+            return await MongoDbService.createOne(Products, product);
         }
         catch(error) {
             throw error;
         }
     }
 
-    // Gets all products from products.json file
+    // Gets all products from db
+    static async getProductsWithAggregate(options) {
+        try {
+            return await MongoDbService.aggregate(Products, options);
+        }
+        catch(error) {
+            throw error;
+        }
+    }
+
     static async getProducts() {
         try {
-            return await FileService.readFile(ProductManager.filePath);
+            return await MongoDbService.getAll(Products);
         }
         catch(error) {
             throw error;
@@ -46,8 +38,7 @@ class ProductManager {
     // Gets one cart by id
     static async getProductById(id) {
         try {
-            const products = await FileService.readFile(ProductManager.filePath);
-            return products.find((p) => p.id === id) || null;
+            return await MongoDbService.getById(Products, id);
         }
         catch(error) {
             throw error;
@@ -55,27 +46,9 @@ class ProductManager {
     }
 
     // Updates a product by id
-    static async updateproduct(id, content) {
+    static async updateProduct(id, content) {
         try {
-            const products = await FileService.readFile(ProductManager.filePath);
-        
-            if(products.some((p) => p.id === id)) {
-            
-                const index = products.findIndex((p) => p.id === id);
-
-                if(index === -1) {
-                    return false;
-                }
-
-                products[index] = {...products[index], ...content};
-
-                await FileService.writeFile(ProductManager.filePath, products);
-
-                return true;
-            }
-            else {
-                return false;
-            }
+            return await MongoDbService.updateById(Products, content, id);
         }
         catch(error) {
             throw error;
@@ -85,22 +58,20 @@ class ProductManager {
     // Deletes a product by id
     static async deleteProduct(id) {
         try {
-            const products = await FileService.readFile(ProductManager.filePath);
-
-            if(products.some((p) => p.id === id)) {
-                const newProducts = products.filter((p) => p.id !== id);
-
-                await FileService.writeFile(ProductManager.filePath, newProducts);
-
-                return true;
-            }
-            else {
-                return false;
-            } 
+            return await MongoDbService.deleteById(Products, id);
         }
         catch(error) {
             throw error;
         }      
+    }
+
+    static async countProducts(query) {
+        try {
+            return await MongoDbService.countProducts(Products, query);
+        }
+        catch(error) {
+            throw error;
+        }
     }
 }
 

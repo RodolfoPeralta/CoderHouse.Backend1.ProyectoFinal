@@ -119,6 +119,7 @@ body main .productsContainer .products {
     gap: 50px;
     text-align: left;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 body main .productsContainer .products .item {
@@ -131,11 +132,23 @@ body main .productsContainer .products .item {
     padding-left: 30px;
     border-radius: 15px;
     box-shadow: 0 6px 4px rgba(29, 29, 29, 0.3);
-    transition: transform 0.4s ease-in-out 1ms;
 }
 
 body main .productsContainer .products .item span {
     color: #ec7063;
+}
+
+body main .productsContainer .products .item .addToCartButton {
+    display: block;
+    background-color: #2980b9;
+    color: #FFFFFF;
+    border: none;
+    width: 200px;
+    height: 35px;
+    transition: background-color 0.3s ease;
+    border-radius: 10px;
+    margin: 10px auto;
+    padding: 0;
 }
 
 /* Real Time Products View */
@@ -241,6 +254,90 @@ body main .realTimeProductsContainer .contentContainer #prodContainer .item .del
     margin: 10px auto;
 }
 
+/* Carts view */
+
+body main .cartsContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    margin-top: 20px;
+}
+
+body main .cartsContainer .carts {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    text-align: left;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+body main .cartsContainer .carts .cart-item {
+    background-color: rgb(29, 29, 29);
+    color: #FFFFFF;
+    width: 30vw;
+    height: auto;
+    text-align: justify;
+    padding: 10px;
+    padding-left: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 4px rgba(29, 29, 29, 0.3);
+}
+
+body main .cartsContainer .carts .cart-item span {
+    color: #ec7063;
+}
+
+body main .cartsContainer .carts .cart-item .select-cart {
+    background-color: #2980b9;
+    color: #FFFFFF;
+    border: none;
+    width: 200px;
+    height: 35px;
+    transition: background-color 0.3s ease;
+    margin-top: 30px;
+    border-radius: 10px;
+}
+
+/* Cart Products List */
+
+body main .cartProductListContainer {
+    text-align: center;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+body main .cartProductListContainer .productList {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    text-align: left;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+body main .cartProductListContainer .productList .cartProductListItem {
+    background-color: rgb(29, 29, 29);
+    color: #FFFFFF;
+    width: 30vw;
+    height: auto;
+    text-align: justify;
+    padding: 10px;
+    padding-left: 30px;
+    border-radius: 15px;
+    box-shadow: 0 6px 4px rgba(29, 29, 29, 0.3);
+}
+
+body main .cartProductListContainer .productList .cartProductListItem span {
+    color: #ec7063;
+}
+
 /* Web */
  
 @media screen and (min-width: 1025px) and (max-width: 2000px) {
@@ -249,15 +346,19 @@ body main .realTimeProductsContainer .contentContainer #prodContainer .item .del
         color: #ec7063;
     }
 
-    body main .productsContainer .products .item:hover {
-        transform: scale(1.05, 1.05);
-    }
-
     body main .realTimeProductsContainer .contentContainer #prodContainer .item .del-btn:hover {
         background-color: rgb(244, 67, 54);
     }
 
     body main .realTimeProductsContainer .formContainer .send-btn:hover {
+        background-color: #27ae60;
+    }
+
+    body main .productsContainer .products .item .addToCartButton:hover {
+        background-color: #27ae60;
+    }
+
+    body main .cartsContainer .carts .cart-item .select-cart:hover {
         background-color: #27ae60;
     }
 }

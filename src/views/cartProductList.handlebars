@@ -1,20 +1,16 @@
-<div class="productsContainer">
+<div class="cartProductListContainer">
     <h2>Lista de productos</h2>
-    <div class="products">
+    <div class="productList">
         {{#if error}}
             <p>Error leyendo productos desde la base de datos.</p>
         {{else}}
             {{#if products.length}}
                     {{#each products}}
-                        <div class="item">
+                        <div class="cartProductListItem">
                             <span>Título:</span> {{this.title}} <br>
                             <span>Descripción:</span> {{this.description}} <br>
                             <span>Precio:</span> ${{this.price}} <br>
                             <span>Stock:</span> {{this.stock}}
-                            <div class="btn-container">
-                                <button id="addToCart-btn" class="addToCartButton">Ver detalle</button>
-                                <button data-id="{{this._id}}" id="details-btn" class="addToCartButton">Agregar al carrito</button>
-                            </div>
                         </div>
                     {{/each}}
                 {{else}}
@@ -23,7 +19,3 @@
         {{/if}}
     </div>
 </div>
-
-<script src="../../static/js/productsClient.js"></script>
-    
-

@@ -1,6 +1,10 @@
-const ProductManager = require('../managers/ProductManager');
+const ProductManager = require('../../managers/ProductManager');
+const { Server } = require('socket.io');
 
-const configSocket = (io) => {
+const socketConfiguration = (server) => {
+
+    const io = new Server(server);
+
     io.on("connection", async (socket) => {
 
         console.log(`A new user with id: ${socket.id} is connected.`);
@@ -44,4 +48,4 @@ const configSocket = (io) => {
     });
 };
 
-module.exports = configSocket;
+module.exports = socketConfiguration;

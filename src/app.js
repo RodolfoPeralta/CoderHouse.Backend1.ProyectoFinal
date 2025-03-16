@@ -1,30 +1,27 @@
 const express = require('express');
-const routes = require('./routes/api');
+const apiRouter = require('./routes/api');
 const viewRouter = require('./routes/views/viewRouter');
-const handlebars = require('express-handlebars');
+const configureHandlebars = require('./config/handlebars/handlebars');
+const configureMiddlewares = require('./config/Middlewares/middlewares');
 const path = require('path');
 
 const app = express();
 
 // Middlewares
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+configureMiddlewares(app);
 
 // Static files configuration
 app.use("/static", express.static(path.join(__dirname, "./public")));
 
 // Handlebars
-const viewsPath = path.join(__dirname, "./","views");
-app.engine('handlebars', handlebars.engine());
-app.set('views', viewsPath);
-app.set('view engine', 'handlebars');
+configureHandlebars(app);
 
 app.get("/", (request, response) => {
     response.render("index");
 });
 
 // Routes
-app.use("/api", routes);
+app.use("/api", apiRouter);
 app.use("/views", viewRouter);
 
 

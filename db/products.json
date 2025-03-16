@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "title": "Fender Telecaster",
     "description": "Electric Guitar",
     "code": "6789",
@@ -11,7 +10,6 @@
     "thumbnails": "../../guitars/tele.jpg"
   },
   {
-    "id": 2,
     "title": "Gibson Les Paul",
     "description": "Electric Guitar",
     "code": "12345",
@@ -22,7 +20,6 @@
     "thumbnails": "../../guitars/les-paul.jpg"
   },
   {
-    "id": 3,
     "title": "Takamine Acuostic",
     "description": "Acoustic Guitar",
     "code": "38456",
@@ -33,7 +30,6 @@
     "thumbnails": "../../guitars/takamine.jpg"
   },
   {
-    "id": 4,
     "title": "Fender Telecaster",
     "description": "Electric Guitar",
     "code": "3823456",
@@ -42,5 +38,185 @@
     "stock": 7,
     "category": "Electric Guitar",
     "thumbnails": "../../guitars/tele.jpg"
+  },
+  {
+    "title": "Ibanez RG550",
+    "description": "Electric Guitar",
+    "code": "98765",
+    "price": 220000,
+    "status": true,
+    "stock": 5,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/ibanez-rg550.jpg"
+  },
+  {
+    "title": "Gibson SG Standard",
+    "description": "Electric Guitar",
+    "code": "54321",
+    "price": 280000,
+    "status": true,
+    "stock": 3,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/gibson-sg.jpg"
+  },
+  {
+    "title": "Martin D-28",
+    "description": "Acoustic Guitar",
+    "code": "67890",
+    "price": 350000,
+    "status": true,
+    "stock": 4,
+    "category": "Acoustic Guitar",
+    "thumbnails": "../../guitars/martin-d28.jpg"
+  },
+  {
+    "title": "Yamaha C40",
+    "description": "Classic Guitar",
+    "code": "11223",
+    "price": 120000,
+    "status": true,
+    "stock": 6,
+    "category": "Classic Guitar",
+    "thumbnails": "../../guitars/yamaha-c40.jpg"
+  },
+  {
+    "title": "Fender Jazzmaster",
+    "description": "Electric Guitar",
+    "code": "33445",
+    "price": 270000,
+    "status": false,
+    "stock": 0,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/fender-jazzmaster.jpg"
+  },
+  {
+    "title": "Taylor 314ce",
+    "description": "Acoustic Guitar",
+    "code": "55667",
+    "price": 320000,
+    "status": true,
+    "stock": 2,
+    "category": "Acoustic Guitar",
+    "thumbnails": "../../guitars/taylor-314ce.jpg"
+  },
+  {
+    "title": "PRS SE Custom 24",
+    "description": "Electric Guitar",
+    "code": "77889",
+    "price": 250000,
+    "status": true,
+    "stock": 8,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/prs-se-custom.jpg"
+  },
+  {
+    "title": "Cordoba C7",
+    "description": "Classic Guitar",
+    "code": "11331",
+    "price": 180000,
+    "status": true,
+    "stock": 3,
+    "category": "Classic Guitar",
+    "thumbnails": "../../guitars/cordoba-c7.jpg"
+  },
+  {
+    "title": "Epiphone Casino",
+    "description": "Electric Guitar",
+    "code": "99001",
+    "price": 230000,
+    "status": true,
+    "stock": 5,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/epiphone-casino.jpg"
+  },
+  {
+    "title": "Gibson Flying V",
+    "description": "Electric Guitar",
+    "code": "99221",
+    "price": 310000,
+    "status": true,
+    "stock": 4,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/gibson-flyingv.jpg"
+  },
+  {
+    "title": "Gretsch G5420T",
+    "description": "Electric Guitar",
+    "code": "88332",
+    "price": 280000,
+    "status": true,
+    "stock": 2,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/gretsch-g5420t.jpg"
+  },
+  {
+    "title": "Seagull S6 Original",
+    "description": "Acoustic Guitar",
+    "code": "77441",
+    "price": 240000,
+    "status": true,
+    "stock": 3,
+    "category": "Acoustic Guitar",
+    "thumbnails": "../../guitars/seagull-s6.jpg"
+  },
+  {
+    "title": "Guild D-55",
+    "description": "Acoustic Guitar",
+    "code": "55664",
+    "price": 360000,
+    "status": false,
+    "stock": 0,
+    "category": "Acoustic Guitar",
+    "thumbnails": "../../guitars/guild-d55.jpg"
+  },
+  {
+    "title": "Alhambra 4P",
+    "description": "Classic Guitar",
+    "code": "22334",
+    "price": 190000,
+    "status": true,
+    "stock": 4,
+    "category": "Classic Guitar",
+    "thumbnails": "../../guitars/alhambra-4p.jpg"
+  },
+  {
+    "title": "Ramirez 1A",
+    "description": "Classic Guitar",
+    "code": "33445",
+    "price": 400000,
+    "status": true,
+    "stock": 1,
+    "category": "Classic Guitar",
+    "thumbnails": "../../guitars/ramirez-1a.jpg"
+  },
+  {
+    "title": "Fender Mustang",
+    "description": "Electric Guitar",
+    "code": "11456",
+    "price": 260000,
+    "status": true,
+    "stock": 6,
+    "category": "Electric Guitar",
+    "thumbnails": "../../guitars/fender-mustang.jpg"
+  },
+  {
+    "title": "Cort Earth 100",
+    "description": "Acoustic Guitar",
+    "code": "66577",
+    "price": 185000,
+    "status": true,
+    "stock": 7,
+    "category": "Acoustic Guitar",
+    "thumbnails": "../../guitars/cort-earth100.jpg"
+  },
+  {
+    "title": "Yamaha CG182S",
+    "description": "Classic Guitar",
+    "code": "99022",
+    "price": 160000,
+    "status": true,
+    "stock": 5,
+    "category": "Classic Guitar",
+    "thumbnails": "../../guitars/yamaha-cg182s.jpg"
   }
 ]

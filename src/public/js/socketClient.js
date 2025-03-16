@@ -30,7 +30,7 @@ function renderProducts(products, error = false) {
         div.setAttribute("class", "item");
     
         deleteButton.innerText = "Eliminar";
-        deleteButton.setAttribute("id", p.id);
+        deleteButton.setAttribute("id", p._id);
         deleteButton.setAttribute("class", "del-btn");
 
         div.innerHTML = `
@@ -84,6 +84,6 @@ sendButton.addEventListener("click", (e) => {
 
 // Deletes a product by realTimeProducts view
 productsContainer.addEventListener("click", (e) => {
-    const productId = Number(e.target.getAttribute("id"));
+    const productId = e.target.getAttribute("id");
     socket.emit("deleteProduct", productId);
 });
