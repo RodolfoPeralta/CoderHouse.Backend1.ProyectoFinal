@@ -13,7 +13,7 @@ class CartManagerController {
             return response.status(200).json(carts);
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
@@ -23,159 +23,164 @@ class CartManagerController {
             const cid = request.params.id;
         
             if(!cid) {
-                throw new Error("Cart Id parameter is required.");
+                throw new Error("Cart Id parameter is required");
             }
 
             const cart = await CartManager.getCartById(cid);
 
             if(!cart) {
-                throw new Error(`Cart with id ${cid} not founded.`);
+                throw new Error(`Cart with id '${cid}' not founded`);
             }
 
             return response.status(200).json(cart);
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
-    // Creates a new cart
+    // Creates a new cart to db
     static async createCart(request, response) {
         try {
             return response.status(201).json(await CartManager.createCart());
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
-    // Adds an specific product to a cart
+    // Adds an specific product to an existing cart
     static async addProductToCart(request, response) {
         try {
             const cid = request.params.cid;
             const pid = request.params.pid;
 
             if(!cid) {
-                throw new Error("Cart Id parameter is required.");
+                throw new Error("Cart Id parameter is required");
             }
 
             if(!pid) {
-                throw new Error("Product Id parameter is required.");
+                throw new Error("Product Id parameter is required");
             }
 
             const cart = await CartManager.addProductToCart(cid, pid);
 
             if(!cart) {
-                return response.status(404).json({Message: `Cart with id '${cid}' not founded.`});
+                return response.status(404).json({Status: "Error", Message: `Cart with id '${cid}' not founded`});
             }
 
-            return response.status(201).json(cart);
+            return response.status(201).json({Status: "Success", Message: "Product added to cart."});
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
+    // Updates a product list from an existing cart
     static async updateAllProductsFromCart(request, response) {
         try {
             const cid = request.params.cid;
             const products = request.body;
 
             if(!cid) {
-                throw new Error("Cart Id parameter is required.");
+                throw new Error("Cart Id parameter is required");
             }
 
             if(!products) {
-                throw new Error("A list of products is required.");
+                throw new Error("A list of products is required");
             }
 
             const updatedCart = await CartManager.updateAllProductsFromCart(products, cid);
 
             if(!updatedCart) {
-                throw new Error(`Error updating cart with id '${cid}'.`);
+                throw new Error(`Error updating cart with id '${cid}'`);
             }
 
-            return response.status(200).json(updatedCart);
+            return response.status(200).json({Status: "Success", Message: "All products updated."});
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
+    // Updates a product's quantity from an existing cart
     static async updateProductFromCartById(request, response) {
         try {
             const cid = request.params.cid;
             const pid = request.params.pid;
-            const quantity = request.body;
-
+            let { quantity } = request.body;
+            
             if(!cid) {
-                throw new Error("Cart Id parameter is required.");
+                throw new Error("Cart Id parameter is required");
             }
 
             if(!pid) {
-                throw new Error("Product Id parameter is required.");
+                throw new Error("Product Id parameter is required");
             }
 
-            if(!quantity) {
-                throw new Error("Quantity parameter is required.");
+            quantity = parseInt(quantity);
+
+            if(!quantity || typeof quantity !== "number") {
+                throw new Error("Quantity parameter is required as a number");
             }
 
             const updatedCart = await CartManager.updateProductFromCartById(quantity, cid, pid);
 
             if(!updatedCart) {
-                throw new Error(`Error updating cart with id '${cid}'.`);
+                throw new Error(`Error updating cart with id '${cid}'`);
             }
 
-            return response.status(200).json(updatedCart);
+            return response.status(200).json({Status: "Success", Message: `Product's quantity updated to ${quantity}`});
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
     // Deletes a products list from cart by id
     static async deleteProductsToCartById(request, response) {
         try {
-            const cid = request.params.id;
+            const cid = request.params.cid;
 
             if(!cid) {
-                throw new Error("Cart Id parameter is required.");
+                throw new Error("Cart Id parameter is required");
             }
 
             if(await CartManager.deleteProductsToCartById(cid)) {
-                return response.status(200).json({Message: "Cart deleted."});
+                return response.status(200).json({Status: "Success", Message: `Product list deleted from cart with id '${cid}'`});
             }
             else {
-                return response.status(404).json({Message: `Cart with id '${id}' not founded.`});
+                return response.status(404).json({Status: "Error", Message: `Cart with id '${id}' not founded`});
             }
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
+    // Deletes a product from an existing cart
     static async deleteProductFromCartById(request, response) {
         try {
             const cid = request.params.cid;
             const pid = request.params.pid;
 
             if(!cid) {
-                throw new Error("Cart Id parameter is required.");
+                throw new Error("Cart Id parameter is required");
             }
 
             if(!pid) {
-                throw new Error("Product Id parameter is required.");
+                throw new Error("Product Id parameter is required");
             }
 
             if(await CartManager.deleteProductFromCartById(cid, pid)) {
-                return response.status(200).json({Message: "Product deleted."});
+                return response.status(200).json({Status: "Success", Message: "Product deleted"});
             }
             else {
-                return response.status(404).json({Message: `Product with id '${pid}' not founded in Cart.`});
+                return response.status(404).json({Status: "Error", Message: `Product with id '${pid}' not founded in Cart`});
             }
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 }

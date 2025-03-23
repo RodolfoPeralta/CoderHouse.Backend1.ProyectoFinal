@@ -1,5 +1,5 @@
 const MongoDbService = require('../services/MongoDbService');
-const Carts = require('../models/Carts');
+const Carts = require('../models/Cart');
 const Products = require('../models/Product');
 
 class CartManager {
@@ -7,9 +7,9 @@ class CartManager {
     // Public Methods
 
     // Gets all carts from db
-    static async getCarts(isPopulate) {
+    static async getCarts() {
         try {
-            return await MongoDbService.getAll(Carts, isPopulate);
+            return await MongoDbService.getAll(Carts);
         }
         catch(error) {
             throw error;
@@ -17,18 +17,9 @@ class CartManager {
     }
 
     // Gets one cart by id
-    static async getCartById(cid, isPopulate) {
+    static async getCartById(cid) {
         try {
-            return await MongoDbService.getById(Carts, cid, isPopulate);
-        }
-        catch(error) {
-            throw error;
-        }
-    }
-
-    static async getCartByIdWithPopulate(cid) {
-        try {
-            return await MongoDbService.getByIdWithPopulate(Carts, cid);
+            return await MongoDbService.getById(Carts, cid);
         }
         catch(error) {
             throw error;
@@ -51,16 +42,16 @@ class CartManager {
             const cart = await MongoDbService.getById(Carts, cid);
 
             if(!cart) {
-                throw new Error(`Cart with id '${cid}' not founded.`);
+                throw new Error(`Cart with id '${cid}' not founded`);
             }
 
             const product = await MongoDbService.getById(Products, pid);
 
             if(!product) {
-                throw new Error(`Product with id '${pid}' not founded.`);
+                throw new Error(`Product with id '${pid}' not founded`);
             }
 
-            const pIndex = cart.products.findIndex(item => item.product == pid);
+            const pIndex = cart.products.findIndex(item => item.product._id == pid);
             
             if(pIndex !== -1) {
                 cart.products[pIndex].quantity += 1;
@@ -82,12 +73,12 @@ class CartManager {
             const cart = await MongoDbService.getById(Carts, id);
 
             if(!cart) {
-                throw new Error(`Cart with id '${cid}' not founded.`);
+                throw new Error(`Cart with id '${cid}' not founded`);
             }
 
             cart.products = [];
 
-            return updatedCart = await MongoDbService.updateById(Carts, cart, id);
+            return await MongoDbService.updateById(Carts, cart, id);
         }
         catch(error) {
             throw error;
@@ -100,13 +91,13 @@ class CartManager {
             const cart = await MongoDbService.getById(Carts, cid);
 
             if(!cart) {
-                throw new Error(`Cart with id '${cid}' not founded.`);
+                throw new Error(`Cart with id '${cid}' not founded`);
             }
 
             const product = await MongoDbService.getById(Products, pid);
 
             if(!product) {
-                throw new Error(`Product with id '${pid}' not founded.`);
+                throw new Error(`Product with id '${pid}' not founded`);
             }
 
             const pIndex = cart.products.findIndex(item => item.product == pid);
@@ -115,7 +106,7 @@ class CartManager {
                 cart.products.splice(pIndex, 1);
             }
             else {
-                throw new Error(`Product with id '${pid}' not founded on Cart with id '${cid}'.`);
+                throw new Error(`Product with id '${pid}' not founded on Cart with id '${cid}'`);
             }
 
             return await MongoDbService.updateById(Carts, cart, cid);
@@ -131,7 +122,7 @@ class CartManager {
             const cart = await MongoDbService.getById(Carts, cid);
 
             if(!cart) {
-                throw new Error(`Cart with id '${cid}' not founded.`);
+                throw new Error(`Cart with id '${cid}' not founded`);
             }
 
             cart.products = products;
@@ -148,16 +139,20 @@ class CartManager {
             const cart = await MongoDbService.getById(Carts, cid);
 
             if(!cart) {
-                throw new Error(`Cart with id '${cid}' not founded.`);
+                throw new Error(`Cart with id '${cid}' not founded`);
             }
 
             const product = await MongoDbService.getById(Products, pid);
 
             if(!product) {
-                throw new Error(`Product with id '${pid}' not founded.`);
+                throw new Error(`Product with id '${pid}' not founded`);
             }
 
-            const pIndex = cart.products.findIndex(p => p.product == pid);
+            const pIndex = cart.products.findIndex(p => p.product._id == pid);
+
+            if (pIndex === -1) {
+                throw new Error(`Product with id '${pid}' not found in cart '${cid}'`);
+            }
 
             cart.products[pIndex].quantity = quantity;
 

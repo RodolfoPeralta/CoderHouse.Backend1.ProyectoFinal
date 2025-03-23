@@ -5,10 +5,15 @@
             <p>Error leyendo el producto seleccionado desde la base de datos.</p>
         {{else}}
             {{#if product}}
-                <span>Título:</span> {{product.title}} <br>
-                <span>Descripción:</span> {{product.description}} <br>
-                <span>Precio:</span> ${{product.price}} <br>
-                <span>Stock:</span> {{product.stock}}
+                <p><span>Título:</span> {{product.title}}</p> 
+                <p><span>Category:</span> {{product.category}}</p>
+                <p><span>Descripción:</span> {{product.description}}</p>
+                <br> 
+                <p><span>Código:</span> {{product.code}}</p>
+                <p><span>Status:</span> {{product.status}}</p>
+                <br><br>
+                <p><span>Precio:</span> ${{product.price}}</p> 
+                <p><span>Stock:</span> {{product.stock}}</p>
             {{/if}}
         {{/if}}
     </div>

@@ -2,18 +2,12 @@ class MongoDbService {
     
     // Public Methods
 
-    static async getAll(model, isPopulate) {
+    static async getAll(model) {
         try {
-            let query = model.find().lean();
-
-            if(isPopulate) {
-                query = query.populate("products.product", "_id title description price status stock category");
-            }
-
-            const items = await query;
+            const items = await model.find().lean();
 
             if(items.length === 0) {
-                throw new Error("No items found.");
+                throw new Error("No items found");
             }
 
             return items;
@@ -23,19 +17,13 @@ class MongoDbService {
         }
     }
 
-    static async getById(model, id, isPopulate) {
+    static async getById(model, id) {
         try {
 
-            let query = model.findById(id).lean();
-
-            if(isPopulate) {
-                query = query.populate("products.product", "_id title description price status stock category");
-            }
-
-            const item = await query;
+            const item = await model.findById(id).lean();
 
             if(!item) {
-                throw(`Error getting an item with id '${id}' from MongoDb Database.`);
+                throw(`Error getting an item with id '${id}' from MongoDb Database`);
             }
 
             return item;
@@ -54,7 +42,7 @@ class MongoDbService {
             const savedItem = newItem.save();
 
             if(!savedItem) {
-                throw new Error();
+                throw new Error("Error creating a new item in the database");
             }
 
             return savedItem;
@@ -69,7 +57,7 @@ class MongoDbService {
             const updatedItem = model.findByIdAndUpdate(id, item);
 
             if(!updatedItem) {
-                throw(`Item with Id '${id}' not founded.`);
+                throw(`Item with Id '${id}' not founded`);
             }
 
             return updatedItem;
@@ -84,7 +72,7 @@ class MongoDbService {
             const item = model.findByIdAndDelete(id);
 
             if(!item) {
-                throw(`Item with Id '${id}' not founded.`);
+                throw(`Item with Id '${id}' not founded`);
             }
 
             return item;
@@ -123,14 +111,14 @@ class MongoDbService {
         }
     }
 
-    static async countProducts(model, query) {
+    static async getWithPaginate(model, query, options) {
         try {
-            return await model.countDocuments(query);
+            return await model.paginate(query, {...options, lean: true });
         }
         catch(error) {
             throw error;
         }
-    } 
+    }
 }
 
 module.exports = MongoDbService;

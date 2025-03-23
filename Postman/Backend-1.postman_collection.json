@@ -13,7 +13,14 @@
 					"name": "Get Products",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"url": {
 							"raw": "http://localhost:8080/api/products",
 							"protocol": "http",
@@ -24,6 +31,28 @@
 							"path": [
 								"api",
 								"products"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "{\"stock\":5}",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "3",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "asc",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "3",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -35,7 +64,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/products/1",
+							"raw": "http://localhost:8080/api/products/67bfa59347c43bf39c7d60ee",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -44,7 +73,7 @@
 							"path": [
 								"api",
 								"products",
-								"1"
+								"67bfa59347c43bf39c7d60ee"
 							]
 						}
 					},
@@ -57,7 +86,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Gibson Les Paul\",\r\n    \"description\": \"Electric Guitar\",\r\n    \"code\": \"12345\",\r\n    \"price\": 250.000,\r\n    \"status\": true,\r\n    \"stock\": 6,\r\n    \"category\": \"Electric Guitar\",\r\n    \"thumbnails\": \"../../guitars/les-paul.jpg\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Fender CD-60S\",\r\n    \"description\": \"Acoustic Guitar\",\r\n    \"code\": \"88011\",\r\n    \"price\": 120000,\r\n    \"status\": true,\r\n    \"stock\": 8,\r\n    \"category\": \"Acoustic Guitar\",\r\n    \"thumbnails\": \"../../guitars/fender-cd60s.jpg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -85,7 +114,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/products/1",
+							"raw": "http://localhost:8080/api/products/67bfa4b0de8ac064fb6e6d82",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -94,7 +123,7 @@
 							"path": [
 								"api",
 								"products",
-								"1"
+								"67bfa4b0de8ac064fb6e6d82"
 							]
 						}
 					},
@@ -107,7 +136,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Gibson Les Paul\",\r\n    \"description\": \"Electric Guitar updated\",\r\n    \"code\": \"12345\",\r\n    \"price\": 300.000,\r\n    \"status\": false,\r\n    \"stock\": 0,\r\n    \"category\": \"Electric Guitar\",\r\n    \"thumbnails\": \"../../guitars/les-paul.jpg\"\r\n}",
+							"raw": "{\r\n    \"title\": \"Fender Telecaster updated\",\r\n    \"description\": \"Electric Guitar\",\r\n    \"code\": \"12345\",\r\n    \"price\": 350000,\r\n    \"status\": true,\r\n    \"stock\": 4,\r\n    \"category\": \"Electric Guitar\",\r\n    \"thumbnails\": \"../../guitars/tele-updated.jpg\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -115,7 +144,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/products/1",
+							"raw": "http://localhost:8080/api/products/67bfa59347c43bf39c7d60ee",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -124,7 +153,7 @@
 							"path": [
 								"api",
 								"products",
-								"1"
+								"67bfa59347c43bf39c7d60ee"
 							]
 						}
 					},
@@ -161,7 +190,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/carts/1",
+							"raw": "http://localhost:8080/api/carts/67d35563a0959615b7d306d8",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -170,7 +199,7 @@
 							"path": [
 								"api",
 								"carts",
-								"1"
+								"67d35563a0959615b7d306d8"
 							]
 						}
 					},
@@ -202,7 +231,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/carts/2/product/5",
+							"raw": "http://localhost:8080/api/carts/67e00f44dbf338aa1c228868/product/67bfa59347c43bf39c7d60ee",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -211,21 +240,21 @@
 							"path": [
 								"api",
 								"carts",
-								"2",
+								"67e00f44dbf338aa1c228868",
 								"product",
-								"5"
+								"67bfa59347c43bf39c7d60ee"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Delete Cart",
+					"name": "Delete Products By Cart Id",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/carts/2",
+							"raw": "http://localhost:8080/api/carts/67d58ad98408f1ef508f8fb3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -234,7 +263,92 @@
 							"path": [
 								"api",
 								"carts",
-								"2"
+								"67d58ad98408f1ef508f8fb3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update products From Cart",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"product\": \"67bfa63447c43bf39c7d6118\",\r\n        \"quantity\": 3 \r\n    },\r\n    {\r\n        \"product\": \"67bfa62647c43bf39c7d6114\",\r\n        \"quantity\": 1 \r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/carts/67d58ae68408f1ef508f8fb6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"67d58ae68408f1ef508f8fb6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product From Cart By Id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/carts/67d58ad98408f1ef508f8fb3/product/67bfa63447c43bf39c7d6118",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"67d58ad98408f1ef508f8fb3",
+								"product",
+								"67bfa63447c43bf39c7d6118"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product From Cart By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/carts/67d74d7b1e10154426277fd3/product/67bfa59347c43bf39c7d60ee",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"carts",
+								"67d74d7b1e10154426277fd3",
+								"product",
+								"67bfa59347c43bf39c7d60ee"
 							]
 						}
 					},

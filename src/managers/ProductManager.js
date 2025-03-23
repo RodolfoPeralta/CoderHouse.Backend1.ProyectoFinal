@@ -16,7 +16,7 @@ class ProductManager {
         }
     }
 
-    // Gets all products from db
+    // Gets all products from db using aggregate
     static async getProductsWithAggregate(options) {
         try {
             return await MongoDbService.aggregate(Products, options);
@@ -26,6 +26,7 @@ class ProductManager {
         }
     }
 
+    // Gets all products from db
     static async getProducts() {
         try {
             return await MongoDbService.getAll(Products);
@@ -65,14 +66,17 @@ class ProductManager {
         }      
     }
 
-    static async countProducts(query) {
+    // Gets products from db using paginate
+    static async getWithPaginate(query, options) {
         try {
-            return await MongoDbService.countProducts(Products, query);
+            return await MongoDbService.getWithPaginate(Products, query, options);
         }
         catch(error) {
             throw error;
         }
     }
+
+   
 }
 
 module.exports = ProductManager;

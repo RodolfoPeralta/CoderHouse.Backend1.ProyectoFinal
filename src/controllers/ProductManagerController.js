@@ -16,74 +16,58 @@ class ProductManagerController {
                 query = JSON.parse(query);
             }
             catch(error) {
-                throw new Error("Error getting an object from query param.");
+                throw new Error("Error getting the query from query params");
             }
             
-            const sortOption = sort ? { price: sort === 'asc' ? 1 : -1 } : null;
-
-            // Gets total products for a particular query
-            const totalProducts = await ProductManager.countProducts(query);
-
-            // Gets total pages
-            const totalPages = Math.ceil(totalProducts / limit);
-
-            const hasPrevPage = page > 1;
-            const hasNextPage = page < totalPages;
-
-            const prevPage = hasPrevPage ? page - 1 : null;
-            const nextPage = hasNextPage ? page + 1 : null;
-            
-            const prevLink = hasPrevPage ? `/api/products?page=${prevPage}&limit=${limit}` : null;
-            const nextLink = hasNextPage ? `/api/products?page=${nextPage}&limit=${limit}` : null;
+            const sortOption = sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : null;
 
             const options = {
                 limit,
                 page,
-                query,
                 sort: sortOption
             }
-            
-            const products = await ProductManager.getProductsWithAggregate(options);
 
+            const result = await ProductManager.getWithPaginate(query, options);
+            
             const totalResponse = {
                 status: "success",
-                payload: products,
-                totalPages,
-                prevPage,
-                nextPage,
-                page,
-                hasPrevPage,
-                hasNextPage,
-                prevLink,
-                nextLink
+                payload: result.docs,
+                totalPages: result.totalPages,
+                prevPage: result.prevPage,
+                nextPage: result.nextPage,
+                page: result.page,
+                hasPrevPage: result.hasPrevPage,
+                hasNextPage: result.hasNextPage,
+                prevLink: result.hasPrevPage ? `/api/products?page=${result.prevPage}&limit=${result.limit}` : null,
+                nextLink: result.hasNextPage ? `/api/products?page=${result.nextPage}&limit=${result.limit}` : null
             }
 
             return response.status(200).json(totalResponse);
         }
         catch(error) {
-            return response.status(500).json({status: "error", Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
-    // Gets a product by id
+    // Gets a product by id from db
     static async getProductById(request, response) {
         try {
             const id = request.params.id;
 
             if(!id) {
-                throw new Error(`Id parameter is required.`);
+                throw new Error(`Id parameter is required`);
             }
 
             const product = await ProductManager.getProductById(id);
     
             if(!product) {
-                return response.status(404).json({Message: `product with id ${id} not founded.`});
+                return response.status(404).json({Status: "Error", Message: `product with id '${id}' not founded`});
             }
     
             return response.status(200).json(product);
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
@@ -108,17 +92,17 @@ class ProductManagerController {
             return response.status(201).json(newProduct);
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         } 
     }
 
-    // Updates a product by id
+    // Updates a product by id to db
     static async updateProduct(request, response) {
         try {
             const id = request.params.id;
 
             if(!id) {
-                throw new Error(`Id parameter is required.`);
+                throw new Error(`Id parameter is required`);
             }
 
             const {title, description, code, price, status, stock, category, thumbnails} = request.body;
@@ -135,35 +119,35 @@ class ProductManagerController {
             };
             
             if(await ProductManager.updateProduct(id, product)) {
-                return response.status(200).json({Message: `Product with id '${id}' updated.`});
+                return response.status(200).json({Status: "Success", Message: `Product with id '${id}' updated`});
             }
             else {
-                return response.status(404).json({Message: `Product with id '${id}' not founded.`});
+                return response.status(404).json({Status: "Error", Message: `Product with id '${id}' not founded`});
             }
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 
-    // Deletes a product by id
+    // Deletes a product by id to db
     static async deleteProduct(request, response) {
         try {
             const id = request.params.id;
 
             if(!id) {
-                throw new Error(`Id parameter is required.`);
+                throw new Error(`Id parameter is required`);
             }
 
             if(await ProductManager.deleteProduct(id)) {
-                response.status(200).json({Message: "Product deleted."});
+                response.status(200).json({Status: "Success", Message: "Product deleted"});
             }
             else {
-                response.status(404).json({Message: `product with id ${id} not founded.`});
+                response.status(404).json({Status: "Error", Message: `product with id '${id}' not founded`});
             }
         }
         catch(error) {
-            return response.status(500).json({Message: `${error}`});
+            return response.status(500).json({Status: "Error", Message: `${error}`});
         }
     }
 }
